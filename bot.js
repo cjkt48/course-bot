@@ -12,15 +12,14 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
-    if (message.content === 'ping') {
-
-       message.reply('pong');
-
-       }
-
     if (message.content === prefix + 'приветствую') {
 
         message.reply('приветствую вас!');
+    }
+
+    if (message.content === prefix + 'любовь') {
+
+        message.reply('▄██▄██▄░██░░░▄█▀▀█▄░█▌░░▐█░██▀▀▀░▄██▄██▄\n▀█████▀░██░░▐█▌░░▐█▌▐█░░█▌░██▀▀░░▀█████▀\n ░░▀█▀░░░██▄▄░▀█▄▄█▀░░▀██▀░░██▄▄▄░░░▀█');
     }
 
 });
