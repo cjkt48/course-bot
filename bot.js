@@ -18,9 +18,9 @@ client.on('message', message => {
 
        }
 
-    if (msg.content === prefix + 'приветствую') {
+    if (message.content === prefix + 'приветствую') {
 
-        msg.reply('приветствую вас!');
+        message.reply('приветствую вас!');
     }
 
 });
