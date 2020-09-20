@@ -11,24 +11,22 @@ client.on('ready', () => {
 client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    
-    function muteAll(channel, arg) {
-        let channel = message.member.voiceChannel;
-        for (let member of channel.members) {member[1].setMute(arg)}
-    };
 
     if(command === 'помощь' || command=== 'help') message.reply('Я русский бот если что, так что разговаривай со мной по-русски\n'+
         '1) !привет -> здороваюсь в ответ\n'+
         '2) !любовь -> покажу свою любовь\n'+
         '3) !цыц -> помогает всех заткнуть\n'+
-        '4) !алло -> разрешает снова болтать');
+        '4) !алло -> разрешает снова болтать\n'+
+        '5) !поиграем -> создана для игры в Among Us по Discord');
     if(command === 'привет') message.reply('приветствую вас!');
     if(command === 'любовь') message.channel.send('▄██▄██▄░██░░░▄█▀▀█▄░█▌░░▐█░██▀▀▀░▄██▄██▄\n▀█████▀░██░░▐█▌░░▐█▌▐█░░█▌░██▀▀░░▀█████▀\n ░░▀█▀░░░██▄▄░▀█▄▄█▀░░▀██▀░░██▄▄▄░░░▀█');
     if(command === 'цыц') {
-            muteAll(true);
+        let channel = message.member.voiceChannel;
+        for (let member of channel.members) {member[1].setMute(true)}
     }   
     if(command === 'алло') {
-            muteAll(false);
+        let channel = message.member.voiceChannel;
+        for (let member of channel.members) {member[1].setMute(false)}
     }
     // if(command === 'поиграем'){
     //     message.reply('давайте! Напишите номер комнаты!');
