@@ -9,13 +9,16 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+    let command = message.content.split(' ')[0].slice(1);
+    let args = message.content.replace(prefix + command, '').trim();
+
     switch (command) {
         case prefix + 'help':
         case prefix + 'помощь':
             message.reply('Я русский бот если что, так что разговаривай со мной по-русски\n'+
-            '1) !привет -> здороваюсь в ответ'+
-            '2) !любовь -> покажу свою любовь'+
-            '3) !цыц -> помогает всех заткнуть))))'+
+            '1) !привет -> здороваюсь в ответ\n'+
+            '2) !любовь -> покажу свою любовь\n'+
+            '3) !цыц -> помогает всех заткнуть\n'+
             '4) !алло -> разрешает снова болтать');
             break;
         case prefix + 'привет':
@@ -33,10 +36,26 @@ client.on('message', message => {
             for (let member of channel.members) {member[1].setMute(false)}
             break;
         case prefix + 'поиграем':
-            message.channel.send('Давайте! Напишите номер комнаты')
-                    .then(function (message) {
-                        message.react("👍")
-                        message.react("👎")
+            message.reply('Давайте! Напишите номер комнаты')
+                    .then(function (nmessage) {
+                        nmessage.react("👍")
+                        nmessage.react("👎")
+                        message.channel.awaitMessages(m => m.author.id == message.author.id,
+                            {max: 1, time: 30000}).then(collected => {
+                                    // only accept messages by the user who sent the command
+                                    // accept only 1 message, and return the promise after 30000ms = 30s
+
+                                    // first (and, in this case, only) message of the collection
+                                    if (collected.first().content.toLowerCase() == 'yes') {
+                                            message.reply('Shutting down...');
+                                            
+                                    }
+
+                                    else
+                                            message.reply('Operation canceled.');      
+                            }).catch(() => {
+                                    message.reply('No answer after 30 seconds, operation canceled.');
+                            });
                     });
             break;
         case prefix + 'проба':
