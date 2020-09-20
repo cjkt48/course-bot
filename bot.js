@@ -50,15 +50,13 @@ client.on('message', message => {
                                              isMuted = !isMuted;
                                              let channel = message.member.voiceChannel;
                                              for (let member of channel.members) {member[1].setMute(isMuted)}
-                            //                 gameMessage.reactions.removeAll().catch(() => message.reply(', извините, не удалось стереть эмоции'));
-                            //                 if (!isMuted) { 
-                            //                         gameMessage.react('🔇');
-                            //                 } else {
-                            //                         gameMessage.react('🔊');
-                            //                 }
-                                 }).catch(() => {
-                                 message.reply('извините, ошибка смены микрофонов');    
-                             });
+                                             gameMessage.reactions.removeAll().catch(() => message.reply(', извините, не удалось стереть эмоции'));
+                                             if (!isMuted) { 
+                                                     gameMessage.react('🔇');
+                                             } else {
+                                                     gameMessage.react('🔊');
+                                             }
+                                 }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
                             // }
                         }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
                 }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
