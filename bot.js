@@ -43,7 +43,7 @@ client.on('message', message => {
                         .then( function (gameMessage) {
                             gameMessage.react('🔇');
                             let isMuted = false;
-                            // while (true){
+                            while (true){
                                  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
                                  (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
                                  .then(() => {
@@ -51,25 +51,12 @@ client.on('message', message => {
                                              let channel = message.member.voiceChannel;
                                              for (let member of channel.members) {member[1].setMute(isMuted)}
                                              if (!isMuted) { 
-                                                gameMessage.reactions.cache.get('🔊').remove().catch(() => { message.reply('извините, ошибка удаления эмодзи');});   
                                                 gameMessage.react('🔇');
                                              } else {
-
-                                                const userReactions = gameMessage.reactions.cache.filter(reaction => reaction.users.cache.has(user.id));
-                                                try {
-                                                	for (const reaction of userReactions.values()) {
-                                                		await reaction.users.remove(user.id);
-                                                	}
-                                                } catch (error) {
-                                                	console.error('Failed to remove reactions.');
-                                                }
-
-                                                //gameMessage.reactions.cache.get('🔇').remove().catch(() => { message.reply('извините, ошибка удаления эмодзи');});  
-
                                                 gameMessage.react('🔊');
                                              }
                                  }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
-                            // }
+                             }
                         }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
                 }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
