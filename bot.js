@@ -28,7 +28,7 @@ client.on('message', message => {
         let channel = message.member.voiceChannel;
         for (let member of channel.members) {member[1].setMute(false)}
     }
-    if(command === 'поиграем'){
+    if(command === 'поиграем' || command === 'погнали' || command === 'поехали'){
         message.reply('давайте! Напишите номер комнаты!');
         message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 30000})
                 .then(collected => {
@@ -38,11 +38,10 @@ client.on('message', message => {
                     message.channel.send('1');
                     message.channel.send('ИГРА НАЧАЛАСЬ!');
                     message.channel
-                        .send(`Номер комнаты: ${collected.first().content}\nКликни на эмодзи PLAY для вкл/откл звука`)
+                        .send(`Номер комнаты: ${collected.first().content}\n
+                        Кликни на эмодзи PLAY для начала игры, а затем вкл/откл микрофоны!`)
                         .then( function (gameMessage) {
-                            gameMessage.react('▶️').then(() => {
-                                gameMessage.react('🔊');
-                            });
+                            gameMessage.react('▶️');
                             let isMuted = false;
                             while (true){
                                 gameMessage.awaitReactions((reaction, user) => user.id == gameMessage.author.id && 
