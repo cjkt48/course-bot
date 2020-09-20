@@ -41,15 +41,15 @@ client.on('message', message => {
                     message.channel
                         .send(`Номер комнаты: ${collected.first().content}\nКликни на эмодзи PLAY для вкл/откл звука`)
                         .then( function (gameMessage) {
-                            gameMessage.react(':arrow_forward:').then(() => {
-                                gameMessage.react(':loud_sound:');
+                            gameMessage.react('▶️').then(() => {
+                                gameMessage.react('🔊');
                             });
                             let counter = 0;
                             // while (true){
-                            //     gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == ':arrow_forward:'),
+                            //     gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '▶️'),
                             //     { max: 1, time: 600000 })
                             //     .then(collected => {
-                            //         if (collected.first().emoji.name == ':arrow_forward:') {
+                            //         if (collected.first().emoji.name == '▶️') {
                             //             counter++;
                             //             if (counter % 2 === 0) { 
                             //                 let channel = message.member.voiceChannel;
@@ -58,7 +58,7 @@ client.on('message', message => {
                             //                 let channel = message.member.voiceChannel;
                             //                 for (let member of channel.members) {member[1].setMute(true)}
                             //             }
-                            //             (counter % 2 === 0) ? gameMessage.react(':loud_sound:') : gameMessage.react(':mute:');
+                            //             (counter % 2 === 0) ? gameMessage.react('🔊') : gameMessage.react('🔇');
                             //             reaction.users.remove(user.id);
                             //         }
                             //     })
