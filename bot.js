@@ -44,8 +44,7 @@ client.on('message', message => {
                             gameMessage.react('▶️').then(() => {
                                 gameMessage.react('🔊');
                             });
-                            let isMuted = false;
-                            while (true){
+                            let isMuted = false;               
                                 gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '▶️'),
                                 { max: 1, time: 600000 })
                                 .then(collected => {
@@ -71,7 +70,7 @@ client.on('message', message => {
                                 .catch(() => {
                                     break;
                             });
-                            }
+                            
                         }).catch(() => {message.reply('извините, игра технически невозможна сегодня(') });
                 }).catch(() => {message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
