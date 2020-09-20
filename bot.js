@@ -12,7 +12,7 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     
-    const muteAll = (arg) => {
+    function muteAll(arg) {
         let channel = message.member.voiceChannel;
         for (let member of channel.members) {member[1].setMute(arg)}
     };
