@@ -38,11 +38,11 @@ client.on('message', message => {
                     message.channel.send('1');
                     message.channel.send('ИГРА НАЧАЛАСЬ!');
                     message.channel
-                        .send(`Номер комнаты: ${collected.first().content}\n
-                            Отреагируйте на мое сообщение ✅ для вкл микро и ❎ для выкл микро соотв`)
+                        .send(`Номер комнаты: ${collected.first().content}\nОтреагируйте на мое сообщение ✅ для вкл микро и ❎ для выкл микро соотв`)
                         .then( function (gameMessage) {
-                            gameMessage.react("✅")
-                            gameMessage.react("❎")
+                            gameMessage.react('✅').then(r => {
+                                message.react('❎');
+                            });
 
 
                         });
