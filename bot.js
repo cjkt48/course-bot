@@ -54,7 +54,18 @@ client.on('message', message => {
                                                 gameMessage.reactions.cache.get('🔊').remove().catch(() => { message.reply('извините, ошибка удаления эмодзи');});   
                                                 gameMessage.react('🔇');
                                              } else {
-                                                gameMessage.reactions.cache.get('🔇').remove().catch(() => { message.reply('извините, ошибка удаления эмодзи');});   
+
+                                                const userReactions = gameMessage.reactions.cache.filter(reaction => reaction.users.cache.has(userId));
+                                                try {
+                                                	for (const reaction of userReactions.values()) {
+                                                		await reaction.users.remove(userId);
+                                                	}
+                                                } catch (error) {
+                                                	console.error('Failed to remove reactions.');
+                                                }
+
+                                                //gameMessage.reactions.cache.get('🔇').remove().catch(() => { message.reply('извините, ошибка удаления эмодзи');});  
+
                                                 gameMessage.react('🔊');
                                              }
                                  }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
