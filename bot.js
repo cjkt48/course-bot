@@ -41,7 +41,7 @@ client.on('message', message => {
                     message.channel.send('1');
                     message.channel.send('ИГРА НАЧАЛАСЬ!');
                     message.channel
-                        .send(`Номер комнаты: ${collected.first().content}\nОтреагируйте на мое сообщение ✅ для вкл микро и ❎ для выкл микро соотв`)
+                        .send(`Номер комнаты: ${collected.first().content}\nКликни на эмодзи PLAY для вкл/откл звука`)
                         .then( function (gameMessage) {
                             gameMessage.react(':arrow_forward:').then(() => {
                                 gameMessage.react(':loud_sound:');
@@ -53,7 +53,8 @@ client.on('message', message => {
                                 .then(collected => {
                                     if (collected.first().emoji.name == ':arrow_forward:') {
                                         counter++;
-                                        (counter % 2 === 0) ? muteAll(true) : muteAll(false);
+                                        (counter % 2 === 0) ? muteAll(false) : muteAll(true);
+                                        (counter % 2 === 0) ? gameMessage.react(':loud_sound:') : gameMessage.react(':mute:');
                                         reaction.users.remove(user.id);
                                     }
                                 })
