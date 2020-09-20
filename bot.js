@@ -38,7 +38,7 @@ client.on('message', message => {
         message.channel.send('Номер комнаты: *******\nОтреагируйте на мое сообщение ✅ для вкл микро и ❎ для выкл микро соотв');
     }
     
-    if(message.content === prefix + 'спать'){
+    if (message.content === prefix + 'спать'){
         message.reply('The bot will now shut down.\n'
                             + 'Confirm with a thumb up or deny with a thumb down.');
 
@@ -64,25 +64,6 @@ client.on('message', message => {
     }
 
 
-});
-
-client.on('messageReactionAdd', (reaction, user) => {
-        let message = reaction.message, emoji = reaction.emoji;
-
-        if (emoji.name == '✅') {
-            let channel = message.member.voiceChannel;
-            for (let member of channel.members) {
-                member[1].setMute(false)
-            }
-        }
-
-        else if (emoji.name == '❎') {
-            let channel = message.member.voiceChannel;
-            for (let member of channel.members) {
-                member[1].setMute(true)
-            }
-        }
-        reaction.remove(user);
 });
 
 client.login(process.env.BOT_TOKEN);
