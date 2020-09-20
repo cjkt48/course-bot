@@ -55,10 +55,10 @@ client.on('message', message => {
                                                 gameMessage.react('🔇');
                                              } else {
 
-                                                const userReactions = gameMessage.reactions.cache.filter(reaction => reaction.users.cache.has(userId));
+                                                const userReactions = gameMessage.reactions.cache.filter(reaction => reaction.users.cache.has(user.id));
                                                 try {
                                                 	for (const reaction of userReactions.values()) {
-                                                		await reaction.users.remove(userId);
+                                                		await reaction.users.remove(user.id);
                                                 	}
                                                 } catch (error) {
                                                 	console.error('Failed to remove reactions.');
