@@ -44,7 +44,7 @@ client.on('message', message => {
                             gameMessage.react('▶️');
                             let isMuted = false;
                             // while (true){
-                                 gameMessage.awaitReactions((reaction, user) => user.id == gameMessage.author.id && 
+                                 gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
                                  (reaction.emoji.name == '▶️' || reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
                                  .then(() => {
                                              isMuted = !isMuted;
