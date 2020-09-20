@@ -6,6 +6,7 @@ const prefix = '!';
 
 client.on('ready', () => {
     console.log('I am ready!');
+    client.guilds.get('guild_id').channels.get('channel_id').fetchMessage('message_id');
 });
 
 client.on('message', message => {
