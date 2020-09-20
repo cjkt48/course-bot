@@ -39,22 +39,23 @@ client.on('message', message => {
                     message.channel.send('ИГРА НАЧАЛАСЬ!');
                     message.channel
                         .send(`Номер комнаты: ${collected.first().content}\n
-                        Кликни на эмодзи PLAY для начала игры, а затем вкл/откл микрофоны!`)
+                        Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
                         .then( function (gameMessage) {
-                            gameMessage.react('▶️');
+                            gameMessage.react('🔇');
                             let isMuted = false;
                             // while (true){
                                  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
-                                 (reaction.emoji.name == '▶️' || reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
+                                 (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
                                  .then(() => {
                                              isMuted = !isMuted;
                                              let channel = message.member.voiceChannel;
                                              for (let member of channel.members) {member[1].setMute(isMuted)}
-                                             gameMessage.reactions.removeAll().catch(() => message.reply(', извините, не удалось стереть эмоции'));
                                              if (!isMuted) { 
-                                                     gameMessage.react('🔇');
+                                                gameMessage.reactions.cache.get('🔊').remove().catch(() => { message.reply('извините, ошибка удаления эмодзи');});   
+                                                gameMessage.react('🔇');
                                              } else {
-                                                     gameMessage.react('🔊');
+                                                gameMessage.reactions.cache.get('🔇').remove().catch(() => { message.reply('извините, ошибка удаления эмодзи');});   
+                                                gameMessage.react('🔊');
                                              }
                                  }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
                             // }
