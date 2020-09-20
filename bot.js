@@ -32,7 +32,6 @@ client.on('message', message => {
         message.reply('давайте! Напишите номер комнаты!');
         message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 30000})
                 .then(collected => {
-            
                     message.reply(`спасибо! Ваш номер: ${collected.first().content}`);
                     message.channel.send('3');
                     message.channel.send('2');
@@ -46,34 +45,29 @@ client.on('message', message => {
                             });
                             let isMuted = false;
                             // while (true){
-                            //     gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '▶️'),
-                            //     { max: 1, time: 600000 })
-                            //     .then(collected => {
-                            //         if (collected.first().emoji.name == '▶️') {
-                            //             isMuted = !isMuted;
-                            //             if (isMuted) { 
-                            //                 let channel = message.member.voiceChannel;
-                            //                 for (let member of channel.members) {member[1].setMute(true)}
-                            //                 gameMessage.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
-                            //                 gameMessage.react('▶️').then(() => {
-                            //                     gameMessage.react('🔇');
-                            //                 });
-                            //             } else {
-                            //                 let channel = message.member.voiceChannel;
-                            //                 for (let member of channel.members) {member[1].setMute(false)}
-                            //                 gameMessage.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
-                            //                 gameMessage.react('▶️').then(() => {
-                            //                     gameMessage.react('🔊');
-                            //                 });
-                            //             }
-                            //         }
-                            //     })
-                            //     .catch(() => {
-                            //         break;
-                            // });
+                                 gameMessage.awaitReactions((reaction, user) => user.id == gameMessage.author.id && (reaction.emoji.name == '▶️'),
+                                 { max: 1, time: 600000 })
+                                 .then(() => {
+                                            isMuted = !isMuted;
+                                            let channel = message.member.voiceChannel;
+                                            for (let member of channel.members) {member[1].setMute(isMuted)}
+                                            gameMessage.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                                            if (isMuted) { 
+                                                gameMessage.react('▶️').then(() => {
+                                                    gameMessage.react('🔇');
+                                                });
+                                            } else {
+                                                gameMessage.react('▶️').then(() => {
+                                                    gameMessage.react('🔊');
+                                                });
+                                            }
+                                    }
+                                 ).catch(() => {
+                                    message.reply('извините, игра технически невозможна сегодня(');    
+                             });
                             // }
-                        }).catch(() => {message.reply('извините, игра технически невозможна сегодня(') });
-                }).catch(() => {message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
+                        }).catch(() => { message.reply('извините, игра технически невозможна сегодня('); });
+                }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
 });
 
