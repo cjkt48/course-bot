@@ -44,28 +44,34 @@ client.on('message', message => {
                             gameMessage.react('▶️').then(() => {
                                 gameMessage.react('🔊');
                             });
-                            let counter = 0;
-                            // while (true){
-                            //     gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '▶️'),
-                            //     { max: 1, time: 600000 })
-                            //     .then(collected => {
-                            //         if (collected.first().emoji.name == '▶️') {
-                            //             counter++;
-                            //             if (counter % 2 === 0) { 
-                            //                 let channel = message.member.voiceChannel;
-                            //                 for (let member of channel.members) {member[1].setMute(false)}
-                            //             } else {
-                            //                 let channel = message.member.voiceChannel;
-                            //                 for (let member of channel.members) {member[1].setMute(true)}
-                            //             }
-                            //             (counter % 2 === 0) ? gameMessage.react('🔊') : gameMessage.react('🔇');
-                            //             reaction.users.remove(user.id);
-                            //         }
-                            //     })
-                            //     .catch(() => {
-                            //         break;
-                            // });
-                            // }
+                            let isMuted = false;
+                            while (true){
+                                gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '▶️'),
+                                { max: 1, time: 600000 })
+                                .then(collected => {
+                                    if (collected.first().emoji.name == '▶️') {
+                                        isMuted = !isMuted;
+                                        if (isMuted) { 
+                                            let channel = message.member.voiceChannel;
+                                            for (let member of channel.members) {member[1].setMute(true)}
+                                            gameMessage.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                                            gameMessage.react('▶️').then(() => {
+                                                gameMessage.react('🔇');
+                                            });
+                                        } else {
+                                            let channel = message.member.voiceChannel;
+                                            for (let member of channel.members) {member[1].setMute(false)}
+                                            gameMessage.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                                            gameMessage.react('▶️').then(() => {
+                                                gameMessage.react('🔊');
+                                            });
+                                        }
+                                    }
+                                })
+                                .catch(() => {
+                                    break;
+                            });
+                            }
                         }).catch(() => {message.reply('извините, игра технически невозможна сегодня(') });
                 }).catch(() => {message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
