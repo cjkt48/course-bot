@@ -33,7 +33,7 @@ client.on('message', message => {
             for (let member of channel.members) {member[1].setMute(false)}
             break;
         case prefix + 'поиграем':
-            message.reply('давайте! Напишите номер комнаты')
+            message.channel.send('Давайте! Напишите номер комнаты')
                     .then(function (message) {
                         message.react("👍")
                         message.react("👎")
@@ -44,7 +44,6 @@ client.on('message', message => {
             message.react('👍').then(r => {
                 message.react('👎');
             });
-
             break;  
     }
 });
