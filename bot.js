@@ -43,7 +43,7 @@ client.on('message', message => {
                         .then( function (gameMessage) {
                             gameMessage.react('🔇');
                             let isMuted = false;
-                            while (true){
+                            //while (true){
                                  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
                                  (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
                                  .then(() => {
@@ -56,7 +56,7 @@ client.on('message', message => {
                                                 gameMessage.react('🔊');
                                              }
                                  }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
-                             }
+                             //}
                         }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
                 }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
