@@ -28,35 +28,29 @@ client.on('message', message => {
             for (let member of channel.members) {member[1].setMute(false)}
     }
     if(command === 'поиграем'){
-        message.reply('Давайте! Напишите номер комнаты')
-                .then(function (nmessage) {
-                    nmessage.react("👍")
-                    nmessage.react("👎")
+        message.reply('давайте! Напишите номер комнаты!');
+        message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 30000})
+                .then(collected => {
+            
+                    message.reply(`спасибо! Ваш номер: ${collected.first().content}`);
+                    message.channel.send('3');
+                    message.channel.send('2');
+                    message.channel.send('1');
+                    message.channel.send('ИГРА НАЧАЛАСЬ!');
+                    message.channel
+                        .send(`Номер комнаты: ${collected.first().content}\n
+                            Отреагируйте на мое сообщение ✅ для вкл микро и ❎ для выкл микро соотв`)
+                        .then( function (gameMessage) {
+                            gameMessage.react("✅")
+                            gameMessage.react("❎")
 
-                    message.channel.awaitMessages(m => m.author.id == message.author.id,
-                        {max: 1, time: 30000}).then(collected => {
-                                // only accept messages by the user who sent the command
-                                // accept only 1 message, and return the promise after 30000ms = 30s
 
-                                // first (and, in this case, only) message of the collection
-                                if (collected.first().content.toLowerCase() == 'yes') {
-                                        message.reply('Shutting down...');
-                                        client.destroy();
-                                }
-
-                                else
-                                        message.reply('Operation canceled.');      
-                        }).catch(() => {
-                                message.reply('No answer after 30 seconds, operation canceled.');
                         });
 
+
+                }).catch (() => {
+                    message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался(');
                 });
-    }
-    if(command === 'проба'){
-        message.channel.send('Номер комнаты: *******\nОтреагируйте на мое сообщение ✅ для вкл микро и ❎ для выкл микро соотв');
-        message.react('👍').then(r => {
-            message.react('👎');
-        });
     }
 });
 
