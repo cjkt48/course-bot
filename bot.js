@@ -32,6 +32,24 @@ client.on('message', message => {
                 .then(function (nmessage) {
                     nmessage.react("👍")
                     nmessage.react("👎")
+
+                    message.channel.awaitMessages(m => m.author.id == message.author.id,
+                        {max: 1, time: 30000}).then(collected => {
+                                // only accept messages by the user who sent the command
+                                // accept only 1 message, and return the promise after 30000ms = 30s
+
+                                // first (and, in this case, only) message of the collection
+                                if (collected.first().content.toLowerCase() == 'yes') {
+                                        message.reply('Shutting down...');
+                                        client.destroy();
+                                }
+
+                                else
+                                        message.reply('Operation canceled.');      
+                        }).catch(() => {
+                                message.reply('No answer after 30 seconds, operation canceled.');
+                        });
+
                 });
     }
     if(command === 'проба'){
