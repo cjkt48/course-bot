@@ -38,7 +38,7 @@ client.on('message', message => {
     } 
     
     if (message.content === prefix + 'поиграем'){
-        message.channel.send(Используйте это сообщение для );
+        message.channel.send('Номер комнаты: *******\nОтреагируйте на мое сообщение ✅ для вкл микро и ❎ для выкл микро соотв');
     }
 
 });
