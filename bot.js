@@ -45,31 +45,29 @@ client.on('message', message => {
                                 gameMessage.react(':loud_sound:');
                             });
                             let counter = 0;
-                            while (true){
-                                gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == ':arrow_forward:'),
-                                { max: 1, time: 600000 })
-                                .then(collected => {
-                                    if (collected.first().emoji.name == ':arrow_forward:') {
-                                        counter++;
-                                        if (counter % 2 === 0) { 
-                                            let channel = message.member.voiceChannel;
-                                            for (let member of channel.members) {member[1].setMute(false)}
-                                        } else {
-                                            let channel = message.member.voiceChannel;
-                                            for (let member of channel.members) {member[1].setMute(true)}
-                                        }
-                                        (counter % 2 === 0) ? gameMessage.react(':loud_sound:') : gameMessage.react(':mute:');
-                                        reaction.users.remove(user.id);
-                                    }
-                                })
-                                .catch(() => {
-                                    break;
-                            });
-                            }
-                        });
-                }).catch (() => {
-                    message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался(');
-                });
+                            // while (true){
+                            //     gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == ':arrow_forward:'),
+                            //     { max: 1, time: 600000 })
+                            //     .then(collected => {
+                            //         if (collected.first().emoji.name == ':arrow_forward:') {
+                            //             counter++;
+                            //             if (counter % 2 === 0) { 
+                            //                 let channel = message.member.voiceChannel;
+                            //                 for (let member of channel.members) {member[1].setMute(false)}
+                            //             } else {
+                            //                 let channel = message.member.voiceChannel;
+                            //                 for (let member of channel.members) {member[1].setMute(true)}
+                            //             }
+                            //             (counter % 2 === 0) ? gameMessage.react(':loud_sound:') : gameMessage.react(':mute:');
+                            //             reaction.users.remove(user.id);
+                            //         }
+                            //     })
+                            //     .catch(() => {
+                            //         break;
+                            // });
+                            // }
+                        }).catch(() => {message.reply('извините, игра технически невозможна сегодня(') });
+                }).catch(() => {message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
 });
 
