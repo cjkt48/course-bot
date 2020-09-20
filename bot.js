@@ -62,7 +62,6 @@ client.on('message', message => {
                 //         message.reply('No reaction after 30 seconds, operation canceled');
                 // });
 
-        break;
     }
 
 
