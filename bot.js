@@ -22,6 +22,20 @@ client.on('message', message => {
         message.channel.send('▄██▄██▄░██░░░▄█▀▀█▄░█▌░░▐█░██▀▀▀░▄██▄██▄\n▀█████▀░██░░▐█▌░░▐█▌▐█░░█▌░██▀▀░░▀█████▀\n ░░▀█▀░░░██▄▄░▀█▄▄█▀░░▀██▀░░██▄▄▄░░░▀█');
     }
 
+    if (message.content === prefix + 'цыц') {
+        let channel = message.member.voiceChannel;
+        for (let member of channel.members) {
+            member[1].setMute(true)
+        }
+    }
+    
+    if(message.content === prefix + 'алло'){
+        let channel = message.member.voiceChannel;
+        for (let member of channel.members) {
+            member[1].setMute(false)
+        }
+    }
+
 });
 
 client.login(process.env.BOT_TOKEN);
