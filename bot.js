@@ -2,17 +2,18 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
-const prefix = '☭';
+const prefix = '!';
 
 client.on('ready', () => {
 
     console.log('I am ready!');
+    client.guilds.get('guild_id').channels.get('channel_id').fetchMessage('message_id');
 
 });
 
 client.on('message', message => {
 
-    if (message.content === prefix + 'приветствую') {
+    if (message.content === prefix + 'привет') {
 
         message.reply('приветствую вас!');
     }
@@ -34,8 +35,33 @@ client.on('message', message => {
         for (let member of channel.members) {
             member[1].setMute(false)
         }
+    } 
+    
+    if (message.content === prefix + 'поиграем'){
+        message.channel.send(Используйте это сообщение для );
     }
 
+});
+
+client.on('messageReactionAdd', (reaction, user) => {
+        let message = reaction.message, emoji = reaction.emoji;
+
+        if (emoji.name == '✅') {
+            let channel = message.member.voiceChannel;
+            for (let member of channel.members) {
+                member[1].setMute(false)
+            }
+        }
+
+        else if (emoji.name == '❎') {
+            let channel = message.member.voiceChannel;
+            for (let member of channel.members) {
+                member[1].setMute(true)
+            }
+        }
+
+        // Remove the user's reaction
+        reaction.remove(user);
 });
 
 client.login(process.env.BOT_TOKEN);
