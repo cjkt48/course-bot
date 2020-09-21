@@ -45,8 +45,9 @@ client.on('message', message => {
                             let isMuted = false;
                             // while (true){
                                  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
-                                 (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
+                                 (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ time: 600000 })
                                  .then(() => {
+                                     //СДЕЛАТЬ ТАК, ЧТОБ МИКРОФОН СБРАСЫВАЛСЯ ПРИ НАЖАТИИ И ОТЖАТИИ НА КНОПОЧКУ (ЕСЛИ БОЛЬШЕ 1 РЕАКЦИИ, ТО МУТ, ИНАЧЕ НЕМУТ)
                                              isMuted = !isMuted;
                                              let channel = message.member.voiceChannel;
                                              for (let member of channel.members) {member[1].setMute(isMuted)}
