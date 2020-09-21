@@ -41,21 +41,24 @@ client.on('message', message => {
                         .send(`Номер комнаты: ${collected.first().content}\n
                         Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
                         .then( function (gameMessage) {
+
+                            function waitReactionsInCycle(gameMessage, message, isMuted){
+                                gameMessage.awaitMessages((reaction, user) => user.id == message.author.id && reaction.emoji.name == ':mute:' || 
+                                reaction.emoji.name == ':loud_sound:',{ max: 1, time: 30000 }).then(() =>{
+                                    isMuted = !isMuted;
+                                    let channel = message.member.voiceChannel;
+                                    for (let member of channel.members) {member[1].setMute(isMuted)}
+                                    waitReactionsInCycle(gameMessage, message, isMuted);
+                            
+                                }).catch(() => {
+                                    message.reply('izvinite pososite');
+                                });
+                            }
+
                             gameMessage.react('🔇');
                             let isMuted = false;
                             //while (true){
-                                 gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
-                                 (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
-                                 .then(() => {
-                                             isMuted = !isMuted;
-                                             let channel = message.member.voiceChannel;
-                                             for (let member of channel.members) {member[1].setMute(isMuted)}
-                                             if (!isMuted) { 
-                                                gameMessage.react('🔇');
-                                             } else {
-                                                gameMessage.react('🔊');
-                                             }
-                                 }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
+                                 waitReactionsInCycle(gameMessage, message, isMuted);
                              //}
                         }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
                 }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
