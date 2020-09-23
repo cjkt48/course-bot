@@ -33,9 +33,11 @@ client.on('message', message => {
                             for (let member of channel.members) {member[1].setMute(isMuted)}
                         }
                         newGame(name, server);
-                 }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
+                 })
+                 .catch(e => { message.reply('извините, ошибка смены микрофонов ' + e); });
 
-        }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
+        })
+        .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
     }
 
     if(command === 'помощь' || command=== 'help') message.reply('слушай, я русский бот, если что, так что разговаривай со мной по-русски\n'+
