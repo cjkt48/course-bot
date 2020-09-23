@@ -32,7 +32,7 @@ client.on('message', message => {
                             isMuted = false;
                             for (let member of channel.members) {member[1].setMute(isMuted)}
                         }
-                        newGame(anotherMessage);
+                        newGame(name, server);
                  }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
 
         }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
