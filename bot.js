@@ -54,15 +54,13 @@ client.on('message', message => {
                                 client.on('messageReactionAdd', (reaction, user) => {
                                     if (reaction.message === gameMessage){
                                         for (let member of channel.members) {member[1].setMute(true);}
-                                    }          
-                                    reaction.remove(user);          
+                                    }                    
                                 });
 
                                 client.on('messageReactionRemove', (reaction, user) => {
                                     if (reaction.message === gameMessage){
                                         for (let member of channel.members) {member[1].setMute(false);}
                                     }          
-                                    reaction.remove(user);          
                                 });    
 
                         
