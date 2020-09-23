@@ -34,7 +34,7 @@ client.on('message', message => {
                         }
                         newGame(name, server);
                  })
-                 .catch(e => { message.reply('извините, ошибка смены микрофонов ' + e); });
+                 .catch(e => { message.reply('извините, ошибка смены микрофонов\nКод ошибки: ' + e); });
 
         })
         .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
