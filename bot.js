@@ -31,6 +31,7 @@ client.on('message', message => {
         for (let member of channel.members) {member[1].setMute(false)}
     }
     else if(command === 'поиграем' || command === 'погнали' || command === 'поехали'){
+        let channel = message.member.voiceChannel;
         message.reply('давайте! Напишите номер комнаты!');
         message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 600000})
                 .then(collected => {
@@ -52,15 +53,11 @@ client.on('message', message => {
                                     gameMessage.react('🔇');
 
                                 client.on('messageReactionAdd', (reaction, user) => {
-                                    if (reaction.message === gameMessage){
-                                        for (let member of channel.members) {member[1].setMute(true);}
-                                    }                    
+                                        for (let member of channel.members) {member[1].setMute(true);}             
                                 });
 
                                 client.on('messageReactionRemove', (reaction, user) => {
-                                    if (reaction.message === gameMessage){
-                                        for (let member of channel.members) {member[1].setMute(false);}
-                                    }          
+                                        for (let member of channel.members) {member[1].setMute(false);}       
                                 });    
 
                         
