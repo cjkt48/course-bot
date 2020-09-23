@@ -11,8 +11,34 @@ client.on('ready', () => {
 client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
+    let isMuted = false;
 
-    if(command === 'помощь' || command=== 'help') message.reply('Я русский бот если что, так что разговаривай со мной по-русски\n'+
+    function newGame() {
+        message.channel
+        .send(`Номер комнаты: ${collected.first().content}\n
+        Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
+        .then( function (gameMessage) {
+            gameMessage.react('🔇').then(()=> {
+                gameMessage.react('🔊');
+            });
+                 gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
+                 (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
+                 .then(() => {
+                        let channel = message.member.voiceChannel;   
+                        if (reaction.emoji.name == '🔇') {
+                            isMuted = true;
+                            for (let member of channel.members) {member[1].setMute(isMuted)}
+                        } else {
+                            isMuted = false;
+                            for (let member of channel.members) {member[1].setMute(isMuted)}
+                        }
+                        newGame(anotherMessage);
+                 }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
+
+        }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
+    }
+
+    if(command === 'помощь' || command=== 'help') message.reply('слушай, я русский бот, если что, так что разговаривай со мной по-русски\n'+
         '1) !привет -> здороваюсь в ответ\n'+
         '2) !любовь -> покажу свою любовь\n'+
         '3) !цыц -> помогает всех заткнуть\n'+
@@ -37,28 +63,7 @@ client.on('message', message => {
                     message.channel.send('2');
                     message.channel.send('1');
                     message.channel.send('ИГРА НАЧАЛАСЬ!');
-                    message.channel
-                        .send(`Номер комнаты: ${collected.first().content}\n
-                        Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
-                        .then( function (gameMessage) {
-                            gameMessage.react('🔇');
-                            let isMuted = false;
-                            // while (true){
-                                 gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
-                                 (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
-                                 .then(() => {
-                                     //СДЕЛАТЬ ТАК, ЧТОБ МИКРОФОН СБРАСЫВАЛСЯ ПРИ НАЖАТИИ И ОТЖАТИИ НА КНОПОЧКУ (ЕСЛИ БОЛЬШЕ 1 РЕАКЦИИ, ТО МУТ, ИНАЧЕ НЕМУТ)
-                                             isMuted = !isMuted;
-                                             let channel = message.member.voiceChannel;
-                                             for (let member of channel.members) {member[1].setMute(isMuted)}
-                                             if (!isMuted) { 
-                                                gameMessage.react('🔇');
-                                             } else {
-                                                gameMessage.react('🔊');
-                                             }
-                                 }).catch(() => { message.reply('извините, ошибка смены микрофонов'); });
-                            // }
-                        }).catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
+                    newGame();
                 }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
 });
