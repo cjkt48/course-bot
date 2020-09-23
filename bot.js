@@ -11,7 +11,6 @@ client.on('ready', () => {
 client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    let isMuted = false;
 
     if(command === 'помощь' || command=== 'help') message.reply('слушай, я русский бот, если что, так что разговаривай со мной по-русски\n'+
         '1) !привет -> здороваюсь в ответ\n'+
@@ -73,43 +72,43 @@ client.on('message', message => {
     }
 });
 
-client.on('messageReactionAdd', (reaction) => {
-    let message = reaction.message, emoji = reaction.emoji;
+// client.on('messageReactionAdd', (reaction) => {
+//     let message = reaction.message, emoji = reaction.emoji;
 
-    if (emoji.name == '🔇') {
-            let channel = message.member.voiceChannel; 
-            for (let member of channel.members) {member[1].setMute(true)}
-            message.channel
-                .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
-                    Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
-                .then( function (gameMessage) {
-                        gameMessage.react('🔇').then(()=> {
-                        gameMessage.react('🔊');
-                        });
-                })
-                .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
-    }
+//     if (emoji.name == '🔇') {
+//             let channel = message.member.voiceChannel; 
+//             for (let member of channel.members) {member[1].setMute(true)}
+//             message.channel
+//                 .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
+//                     Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
+//                 .then( function (gameMessage) {
+//                         gameMessage.react('🔇').then(()=> {
+//                         gameMessage.react('🔊');
+//                         });
+//                 })
+//                 .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
+//     }
 
-    else if (emoji.name == '🔊') {
-        let channel = message.member.voiceChannel; 
-        for (let member of channel.members) {member[1].setMute(isMuted)}
+//     else if (emoji.name == '🔊') {
+//         let channel = message.member.voiceChannel; 
+//         for (let member of channel.members) {member[1].setMute(isMuted)}
 
-        let channel = message.member.voiceChannel; 
-            for (let member of channel.members) {member[1].setMute(true)}
-            message.channel
-                .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
-                    Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
-                .then( function (gameMessage) {
-                        gameMessage.react('🔇').then(()=> {
-                        gameMessage.react('🔊');
-                        });
-                })
-                .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
-    }
+//         let channel = message.member.voiceChannel; 
+//             for (let member of channel.members) {member[1].setMute(true)}
+//             message.channel
+//                 .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
+//                     Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
+//                 .then( function (gameMessage) {
+//                         gameMessage.react('🔇').then(()=> {
+//                         gameMessage.react('🔊');
+//                         });
+//                 })
+//                 .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
+//     }
 
     
-    //reaction.remove(user);
-});
+//     //reaction.remove(user);
+// });
 
 
 
