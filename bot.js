@@ -51,7 +51,6 @@ client.on('message', message => {
                                 .then( function (gameMessage) {
                                     gameMessage.react('🔇');
                                     gameMessage.react('🔊');
-                                    });
                                         //  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
                                         //  (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
                                         //  .then( function() {
