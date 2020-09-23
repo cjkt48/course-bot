@@ -49,8 +49,8 @@ client.on('message', message => {
                                 .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\n
                                 Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
                                 .then( function (gameMessage) {
-                                    gameMessage.react('🔇').then(()=> {
-                                        gameMessage.react('🔊');
+                                    gameMessage.react('🔇');
+                                    gameMessage.react('🔊');
                                     });
                                         //  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
                                         //  (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
@@ -76,7 +76,7 @@ client.on('message', message => {
     }
 });
 
-client.on('messageReactionAdd', (reaction) => {
+client.on('messageReactionAdd', reaction => {
     let message = reaction.message, emoji = reaction.emoji;
 
     if (emoji.name == '🔇') {
