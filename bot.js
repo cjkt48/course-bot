@@ -49,68 +49,30 @@ client.on('message', message => {
                                 .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\n
                                 Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
                                 .then( function (gameMessage) {
-                                    gameMessage.react('🔇').then(r => {
-                                        gameMessage.react('🔊');
+                                    gameMessage.react('🔇');
+
+                                client.on('messageReactionAdd', (reaction, user) => {
+                                    if (reaction.message === gameMessage){
+                                        for (let member of channel.members) {member[1].setMute(true);}
+                                    }          
+                                    reaction.remove(user);          
                                 });
-                                        //  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
-                                        //  (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
-                                        //  .then( function() {
-                                        //         let channel = message.member.voiceChannel;   
-                                        //         if (reaction.emoji.name == '🔇') {
-                                        //             isMuted = true;
-                                        //             for (let member of channel.members) {member[1].setMute(isMuted)}
-                                        //         } else {
-                                        //             isMuted = false;
-                                        //             for (let member of channel.members) {member[1].setMute(isMuted)}
-                                        //         }
-                                        //         newGame(name, server);
-                                        //  })
-                                        //  .catch(e => { message.reply('извините, ошибка смены микрофонов\nКод ошибки: ' + e); });
+
+                                client.on('messageReactionRemove', (reaction, user) => {
+                                    if (reaction.message === gameMessage){
+                                        for (let member of channel.members) {member[1].setMute(false);}
+                                    }          
+                                    reaction.remove(user);          
+                                });    
+
                         
                                 })
                                 .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
-                            // newGame(collected.first().content, collected1.first().content);
                         });
                     
                 }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
 });
-
-client.on('messageReactionAdd', (reaction, user) => {   
-    let message = reaction.message, emoji = reaction.emoji;
-
-    if (emoji.name == '🔇') {
-            let channel = message.member.voiceChannel; 
-            for (let member of channel.members) {member[1].setMute(true)}
-            // message.channel
-            //     .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
-            //         Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
-            //     .then( function (gameMessage) {
-            //             gameMessage.react('🔇').then(()=> {
-            //             gameMessage.react('🔊');
-            //             });
-            //     })
-            //     .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
-    }
-
-    else if (emoji.name == '🔊') {
-        let channel = message.member.voiceChannel; 
-            for (let member of channel.members) {member[1].setMute(true)}
-            // message.channel
-            //     .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
-            //         Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
-            //     .then( function (gameMessage) {
-            //             gameMessage.react('🔇').then(()=> {
-            //             gameMessage.react('🔊');
-            //             });
-            //     })
-            //     .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
-    }
-
-    
-    reaction.remove(user);
-});
-
 
 
 client.login(process.env.BOT_TOKEN);
