@@ -73,7 +73,7 @@ client.on('message', message => {
     }
 });
 
-client.on('messageReactionAdd', (reaction, user) => {
+client.on('messageReactionAdd', (reaction) => {
     let message = reaction.message, emoji = reaction.emoji;
 
     if (emoji.name == '🔇') {
