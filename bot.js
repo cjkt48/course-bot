@@ -74,7 +74,7 @@ client.on('message', message => {
     }
 });
 
-client.on('messageReactionAdd', reaction => {
+client.on('messageReactionAdd', (reaction, user) => {   
     let message = reaction.message, emoji = reaction.emoji;
 
     if (emoji.name == '🔇') {
@@ -106,7 +106,7 @@ client.on('messageReactionAdd', reaction => {
     }
 
     
-    //reaction.remove(user);
+    reaction.remove(user);
 });
 
 
