@@ -96,15 +96,15 @@ client.on('messageReactionAdd', (reaction) => {
     else if (emoji.name == '🔊') {
         let channel = message.member.voiceChannel; 
             for (let member of channel.members) {member[1].setMute(true)}
-            // message.channel
-            //     .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
-            //         Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
-            //     .then( function (gameMessage) {
-            //             gameMessage.react('🔇').then(()=> {
-            //             gameMessage.react('🔊');
-            //             });
-            //     })
-            //     .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
+            message.channel
+                .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
+                    Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
+                .then( function (gameMessage) {
+                        gameMessage.react('🔇').then(()=> {
+                        gameMessage.react('🔊');
+                        });
+                })
+                .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
     }
 
     
