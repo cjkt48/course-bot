@@ -53,11 +53,15 @@ client.on('message', message => {
                                     gameMessage.react('🔇').then(r => {
 
                                     client.on('messageReactionAdd', (reaction, user) => {
-                                    for (let member of channel.members) {member[1].setMute(true);}             
+                                        if (user.id == message.author.id) {
+                                           for (let member of channel.members) {member[1].setMute(true);}     
+                                        }     
                                     });
 
                                     client.on('messageReactionRemove', (reaction, user) => {
-                                    for (let member of channel.members) {member[1].setMute(false);}       
+                                        if (user.id == message.author.id) {
+                                            for (let member of channel.members) {member[1].setMute(false);}    
+                                         }      
                                     }); 
 
                                 });
