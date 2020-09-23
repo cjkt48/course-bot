@@ -13,33 +13,6 @@ client.on('message', message => {
     const command = args.shift().toLowerCase();
     let isMuted = false;
 
-    function newGame(name, server) {
-        message.channel
-        .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
-        Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
-        .then( function (gameMessage) {
-            gameMessage.react('🔇').then(()=> {
-                gameMessage.react('🔊');
-            });
-                 gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
-                 (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
-                 .then( function() {
-                        let channel = message.member.voiceChannel;   
-                        if (reaction.emoji.name == '🔇') {
-                            isMuted = true;
-                            for (let member of channel.members) {member[1].setMute(isMuted)}
-                        } else {
-                            isMuted = false;
-                            for (let member of channel.members) {member[1].setMute(isMuted)}
-                        }
-                        newGame(name, server);
-                 })
-                 .catch(e => { message.reply('извините, ошибка смены микрофонов\nКод ошибки: ' + e); });
-
-        })
-        .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
-    }
-
     if(command === 'помощь' || command=== 'help') message.reply('слушай, я русский бот, если что, так что разговаривай со мной по-русски\n'+
         '1) !привет -> здороваюсь в ответ\n'+
         '2) !любовь -> покажу свою любовь\n'+
@@ -69,6 +42,35 @@ client.on('message', message => {
                             message.channel.send('2');
                             message.channel.send('1');
                             message.channel.send('ИГРА НАЧАЛАСЬ!');
+                            message.channel
+                                .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\n
+                                Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
+                            function newGame(name, server) {
+                                message.channel
+                                .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
+                                Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
+                                .then( function (gameMessage) {
+                                    gameMessage.react('🔇').then(()=> {
+                                        gameMessage.react('🔊');
+                                    });
+                                         gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
+                                         (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
+                                         .then( function() {
+                                                let channel = message.member.voiceChannel;   
+                                                if (reaction.emoji.name == '🔇') {
+                                                    isMuted = true;
+                                                    for (let member of channel.members) {member[1].setMute(isMuted)}
+                                                } else {
+                                                    isMuted = false;
+                                                    for (let member of channel.members) {member[1].setMute(isMuted)}
+                                                }
+                                                newGame(name, server);
+                                         })
+                                         .catch(e => { message.reply('извините, ошибка смены микрофонов\nКод ошибки: ' + e); });
+                        
+                                })
+                                .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
+                            }
                             newGame(collected.first().content, collected1.first().content);
                         });
                     
