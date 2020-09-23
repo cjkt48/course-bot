@@ -64,7 +64,7 @@ client.on('message', message => {
                     message.reply(`какой сервер выбран (Азия, Норф Америка или Европа) ?`);
                     message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 600000})
                         .then(collected1 => {
-                            message.reply(`спасибо! Ваш номер: ${collected1.first().content}`);
+                            message.reply(`спасибо! Выбранный сервер: ${collected1.first().content}`);
                             message.channel.send('3');
                             message.channel.send('2');
                             message.channel.send('1');
