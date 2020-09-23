@@ -50,17 +50,17 @@ client.on('message', message => {
                                 .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\n
                                 Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
                                 .then( function (gameMessage) {
-                                    gameMessage.react('🔇');
+                                    gameMessage.react('🔇').then(r => {
 
-                                client.on('messageReactionAdd', (reaction, user) => {
-                                        for (let member of channel.members) {member[1].setMute(true);}             
+                                    client.on('messageReactionAdd', (reaction, user) => {
+                                    for (let member of channel.members) {member[1].setMute(true);}             
+                                    });
+
+                                    client.on('messageReactionRemove', (reaction, user) => {
+                                    for (let member of channel.members) {member[1].setMute(false);}       
+                                    }); 
+
                                 });
-
-                                client.on('messageReactionRemove', (reaction, user) => {
-                                        for (let member of channel.members) {member[1].setMute(false);}       
-                                });    
-
-                        
                                 })
                                 .catch(() => { message.reply('извините, ошибка вкл/откл микрофонов'); });
                         });
