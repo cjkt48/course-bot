@@ -13,9 +13,9 @@ client.on('message', message => {
     const command = args.shift().toLowerCase();
     let isMuted = false;
 
-    function newGame() {
+    function newGame(name, server) {
         message.channel
-        .send(`Номер комнаты: ${collected.first().content}\n
+        .send(`Номер комнаты: ${name}\nВыбранный сервер: ${server}\n
         Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
         .then( function (gameMessage) {
             gameMessage.react('🔇').then(()=> {
@@ -23,7 +23,7 @@ client.on('message', message => {
             });
                  gameMessage.awaitReactions((reaction, user) => user.id == message.author.id && 
                  (reaction.emoji.name == '🔇' || reaction.emoji.name == '🔊'),{ max: 1, time: 600000 })
-                 .then(() => {
+                 .then( function() {
                         let channel = message.member.voiceChannel;   
                         if (reaction.emoji.name == '🔇') {
                             isMuted = true;
@@ -56,14 +56,20 @@ client.on('message', message => {
     }
     if(command === 'поиграем' || command === 'погнали' || command === 'поехали'){
         message.reply('давайте! Напишите номер комнаты!');
-        message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 30000})
+        message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 600000})
                 .then(collected => {
                     message.reply(`спасибо! Ваш номер: ${collected.first().content}`);
-                    message.channel.send('3');
-                    message.channel.send('2');
-                    message.channel.send('1');
-                    message.channel.send('ИГРА НАЧАЛАСЬ!');
-                    newGame();
+                    message.reply(` какой сервер выбран?`);
+                    message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 600000})
+                        .then(collected1 => {
+                            message.reply(`спасибо! Ваш номер: ${collected1.first().content}`);
+                            message.channel.send('3');
+                            message.channel.send('2');
+                            message.channel.send('1');
+                            message.channel.send('ИГРА НАЧАЛАСЬ!');
+                            newGame(collected.first().content, collected1.first().content);
+                        });
+                    
                 }).catch(() => { message.reply('извините, но 30 секунд прошло, а ответа я так и не дождался('); });
     }
 });
