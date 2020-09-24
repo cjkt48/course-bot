@@ -33,12 +33,12 @@ client.on('message', message => {
     else if(command === 'поиграем' || command === 'погнали' || command === 'поехали'){
         let channel = message.member.voiceChannel;
         message.reply('давайте! Напишите номер комнаты!');
-        message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 30000})
+        message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 600000})
                 .then(collected => {
                     message.reply(`спасибо! Ваш номер: ${collected.first().content}`);
                     name = collected.first().content;
                     message.reply(`какой сервер выбран (Азия, Норф Америка или Европа) ?`);
-                    message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 30000})
+                    message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 600000})
                         .then(collected1 => {
                             message.reply(`спасибо! Выбранный сервер: ${collected1.first().content}`);
                             server = collected1.first().content;
@@ -47,7 +47,7 @@ client.on('message', message => {
                             message.channel.send('1');
                             message.channel.send('ИГРА НАЧАЛАСЬ!');
                             message.channel
-                                .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\n
+                                .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\nВаш ведущий: ${message.author.username}
                                 Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
                                 .then( function (gameMessage) {
                                     gameMessage.react('🔇').then(r => {
