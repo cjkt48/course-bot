@@ -47,7 +47,7 @@ client.on('message', message => {
                             message.channel.send('1');
                             message.channel.send('ИГРА НАЧАЛАСЬ!');
                             message.channel
-                                .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\nВедущий этой игры:${message.author.username}\n
+                                .send(`Номер комнаты: ${collected.first().content}\nВыбранный сервер: ${collected1.first().content}\nВедущий этой игры:${message.author}\n
                                 Кликни на эмодзи MUTE/UNMUTE для вкл/откл микрофонов!`)
                                 .then( function (gameMessage) {
                                     gameMessage.react('🔇').then(r => {
